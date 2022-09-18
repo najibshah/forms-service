@@ -2,7 +2,8 @@ const axios = require("axios");
 const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
-const notificationURI = process.env.NOTIFICATION_SERVICE_URI;
+const { default: accessEnv } = require("../src/helpers/accessEnv");
+const notificationURI = accessEnv("NOTIFICATION_SERVICE_URI");
 
 //Form Model
 require("../models/Form");
@@ -46,9 +47,10 @@ router.post("/new-form", (req, res) => {
   var newForm = {
     firstName: req.body.data.firstName,
     lastName: req.body.data.lastName,
-    phone: req.body.data.phone,
-    text: req.body.data.text,
-    userID: req.body.data.userID,
+    gender: req.body.data.gender,
+    maritalStatus: req.body.data.maritalStatus,
+    description: req.body.data.description,
+
     email: "najeebworkmail@gmail.com",
   };
   //create and save new form

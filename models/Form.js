@@ -1,9 +1,6 @@
 //Form Model
 const mongoose = require("mongoose");
 mongoose.model("Form", {
-  userID: {
-    type: String,
-  },
   firstName: {
     type: String,
     required: true,
@@ -12,13 +9,18 @@ mongoose.model("Form", {
     type: String,
     required: true,
   },
-  phone: {
-    type: String,
-  },
-  text: {
+  description: {
     type: String,
   },
   email: {
+    type: String,
+    required: true,
+  },
+  gender: {
+    type: String,
+    required: true,
+  },
+  maritalStatus: {
     type: String,
     required: true,
   },

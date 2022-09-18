@@ -1,8 +1,9 @@
 const { ServerApiVersion } = require("mongodb");
 const { default: mongoose } = require("mongoose");
+const { default: accessEnv } = require("../src/helpers/accessEnv");
 
 //URI for mongoDB database
-const uri = process.env.MONGODB_URI;
+const uri = accessEnv("MONGODB_URI");
 
 module.exports = {
   connectToServer: () => {

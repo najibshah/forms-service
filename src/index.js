@@ -4,9 +4,10 @@ const cors = require("cors");
 const database = require("../config/connection");
 const forms = require("../routes/forms");
 const bodyParser = require("body-parser");
+const { default: accessEnv } = require("./helpers/accessEnv");
 
 const app = express();
-const port = process.env.PORT || 4343;
+const port = accessEnv("PORT") || 4343;
 
 // Body Parser
 app.use(bodyParser.urlencoded({ extended: false }));
