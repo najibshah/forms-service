@@ -1,15 +1,6 @@
-const axios = require("axios");
 const express = require("express");
 const router = express.Router();
-const mongoose = require("mongoose");
-const { default: accessEnv } = require("../src/helpers/accessEnv");
-const notificationURI = accessEnv("NOTIFICATION_SERVICE_URI");
-
-//Form Model
-require("../models/Form");
-const Form = mongoose.model("Form");
-//Form Validation
-const validateFormInput = require("../validation/form");
+const { addForm, getAllForms } = require("../functions");
 
 // @route   GET /test
 // @desc    Tests forms get route
@@ -19,55 +10,16 @@ router.get("/test", (req, res) => res.json({ msg: "Form get works" }));
 // @route   POST /test
 // @desc    Tests forms post route
 // @access  Public
-router.post("/test", (req, res) => {
-  console.log(req.body);
-  res.json({ msg: "Form post works" });
-});
+router.post("/test", (req, res) => res.json({ msg: "Form post works" }));
 
 // @route   GET /forms
 // @desc    Get forms
 // @access  Public
-router.get("/forms", (req, res) => {
-  Form.find()
-    .sort({ date: -1 })
-    .then((forms) => res.json(forms))
-    .catch((err) => res.status(404).json({ noformsfound: "No forms found" }));
-});
+router.get("/forms", (req, res) => getAllForms(req, res));
 
 // @route   POST /new-form
 // @desc    Adds new form to database
 // @access  Public
-router.post("/new-form", (req, res) => {
-  const { errors, isValid } = validateFormInput(req.body.data);
-  // Check Validation
-  if (!isValid) {
-    // If any errors, send 400 with errors object
-    return res.status(400).json(errors);
-  }
-  var newForm = {
-    firstName: req.body.data.firstName,
-    lastName: req.body.data.lastName,
-    gender: req.body.data.gender,
-    maritalStatus: req.body.data.maritalStatus,
-    description: req.body.data.description,
-
-    email: "najeebworkmail@gmail.com",
-  };
-  //create and save new form
-  var form = new Form(newForm);
-  form.save().then((newForm) => {
-    axios
-      .post(`${notificationURI}/submit`, {
-        mail: newForm.email,
-      })
-      .then((response) => {
-        console.log("email successfully sent");
-      })
-      .catch((error) => {
-        console.log("forms-service notification api call " + error);
-      });
-    res.json(newForm);
-  });
-});
+router.post("/new-form", (req, res) => addForm(req, res));
 
 module.exports = router;

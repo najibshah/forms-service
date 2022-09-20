@@ -10,20 +10,11 @@ module.exports = function validateFormInput(data) {
   data.gender = !isEmpty(data.gender) ? data.gender : "";
   data.maritalStatus = !isEmpty(data.maritalStatus) ? data.maritalStatus : "";
   data.description = !isEmpty(data.description) ? data.description : "";
-  // data.email = !isEmpty(data.email) ? data.email : "";
-  // // checks if email is email
-  // if (!Validator.isEmail(data.email)) {
-  //   errors.email = "Email is invalid";
-  // }
+
   //checks if description field fulfills minimum length required
   if (!Validator.isLength(data.description, { min: 10, max: 10000 })) {
     errors.description = "description must be between 10 and 10000 characters";
   }
-  // // checks if a field is empty
-  // if (Validator.isEmpty(data.email)) {
-  //   errors.email = "Email field is required";
-  // }
-
   if (Validator.isEmpty(data.firstName)) {
     errors.firstName = "First Name is required";
   }
